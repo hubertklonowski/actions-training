@@ -23,7 +23,7 @@ jobs:
       - name: Comment goodbye using message saved in environment variable using GitHub script
         uses: actions/github-script@v5
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: github.token
           script: |
             github.rest.issues.createComment({
               ...context.repo,
