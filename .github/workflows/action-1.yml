@@ -6,6 +6,8 @@ jobs:
   pr_opened:
     runs-on: ubuntu-latest
 #     if: github.event_name == 'opened'
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v3
       
@@ -23,12 +25,12 @@ jobs:
       - name: Comment goodbye using message saved in environment variable using GitHub script
         uses: actions/github-script@v5
         with:
-          github-token: github.token
+          github-token: ${{ GH_TOKEN }}
           script: |
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: ${{ env.goodbye }}
+              body: ${{ env.goodbye }}!
             })
             
         
