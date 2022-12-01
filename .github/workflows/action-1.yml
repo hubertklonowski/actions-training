@@ -13,9 +13,10 @@ jobs:
       
       - name: "Add greeting comment"
         run: gh pr comment ${{ github.event.number }} --body "Good day"
+        
   pr_closed:
     runs-on: ubuntu-latest
-#     if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
     env:
       goodbye: '!'
     steps: 
