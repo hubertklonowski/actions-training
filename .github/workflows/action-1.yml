@@ -22,9 +22,6 @@ jobs:
     steps: 
       - uses: actions/checkout@v3
       
-      - name: Save goodbye message to environment variable
-        run: echo "goodbye=$(cat goodbye.txt) >> $GITHUB_ENV"
-        
       - name: Comment goodbye using message saved in environment variable using GitHub script
         uses: actions/github-script@v6
         with:
@@ -32,7 +29,7 @@ jobs:
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: "$goodbye"
+              body: $(cat goodbye.txt)
             })
             
         
