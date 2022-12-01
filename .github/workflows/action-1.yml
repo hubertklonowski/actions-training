@@ -23,9 +23,8 @@ jobs:
         run: goodbye=$(cat goodbye.txt) >> $GITHUB_ENV
         
       - name: Comment goodbye using message saved in environment variable using GitHub script
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
-          github-token: ${{ env.GH_TOKEN }}
           script: |
             github.rest.issues.createComment({
               ...context.repo,
