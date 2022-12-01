@@ -1,0 +1,38 @@
+name: Action 1
+on: 
+  pull_request:
+    types: [opened, closed]
+jobs:
+  pr_opened:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'opened' }}
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: "Add greeting comment"
+        run: gh pr comment ${{ github.event.number }} --body "Good day"
+  pr_closed:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'closed' }}
+    steps: 
+      - uses: actions/checkout@v3
+      
+      - name: Save goodbye message to environment variable
+        run: goodbye=$(cat goodbye.txt) >> $GITHUB_ENV
+        
+      - name: Comment goodbye using message saved in environment variable using GitHub script
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: ${{ env.goodbye }}
+            })
+            
+        
+        
+        
+        
+      
