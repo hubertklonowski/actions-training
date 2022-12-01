@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
-    if: github.event_name == 'pull_request' && github.event_type == 'opened'
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
     steps:
       - uses: actions/checkout@v3
       
@@ -15,7 +15,9 @@ jobs:
         run: gh pr comment ${{ github.event.number }} --body "Good day"
   pr_closed:
     runs-on: ubuntu-latest
-#     f: github.event_name == 'closed'
+#     if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    env:
+      goodbye: '!'
     steps: 
       - uses: actions/checkout@v3
       
@@ -29,7 +31,7 @@ jobs:
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: "${{ env.goodbye }}!"
+              body: ${{ env.goodbye }}
             })
             
         
