@@ -32,7 +32,7 @@ jobs:
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: ${{ env.goodbye }}
+              body: $env.goodbye
             })
             
         
