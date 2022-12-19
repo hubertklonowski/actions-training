@@ -23,7 +23,7 @@ jobs:
       
       - name: Save goodbye message to environment variable
         run:  | 
-          export GOODBYE=$(cat goodbye.txt)
+          echo "GOODBYE=$(cat goodbye.txt)" >> $GITHUB_ENV
           
       - run: echo $GOODBYE
       
@@ -34,7 +34,7 @@ jobs:
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: $(echo $GOODBYE)
+              body: ${{ env.GOODBYE }}
             })
             
         
