@@ -30,10 +30,11 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            VALUE=${{ env.GOODBYE }}
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: env.GOODBYE
+              body: $VALUE
             })
             
         
