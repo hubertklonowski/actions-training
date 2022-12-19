@@ -17,11 +17,13 @@ jobs:
   pr_closed:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    env:
-      goodbye: '!'
     steps: 
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
       
+      - name: Save goodbye message to environment variable
+        run: echo "GOODBYE=$(cat goodbye.txt)" >> $GITHUB_ENV
+        
       - name: Comment goodbye using message saved in environment variable using GitHub script
         uses: actions/github-script@v6
         with:
@@ -29,7 +31,7 @@ jobs:
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: $(cat goodbye.txt)
+              body: ${{ env.GOODBYE }}
             })
             
         
