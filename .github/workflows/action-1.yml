@@ -30,7 +30,7 @@ jobs:
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: $GOODBYE
+              body: $(echo ${{ env.GOODBYE }})
             })
             
         
