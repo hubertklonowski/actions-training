@@ -23,7 +23,8 @@ jobs:
       
       - name: Save goodbye message to environment variable
         run: |
-          echo "GOODBYE=$(cat goodbye.txt)" >> $GITHUB_ENV
+          GOODBYE=$(cat goodbye.txt)
+          export GOODBYE=$GOODBYE
           printenv
       - name: Comment goodbye using message saved in environment variable using GitHub script
         uses: actions/github-script@v6
