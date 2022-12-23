@@ -56,7 +56,7 @@ jobs:
           name: ${{ env.COVERAGE_REPORT_NAME }}
         
       - name: Send email to boss
-        uses: cinotify/github-action@d99e3149178b27572a58ace227621c333884e
+        uses: cinotify/github-action@d99e3149178b27572a58ace227621c333884e3fb
         with:
           to: ${{ env.BOSS_EMAIL }}
           subject: ${{ env.MESSAGE_SUBJECT }}
