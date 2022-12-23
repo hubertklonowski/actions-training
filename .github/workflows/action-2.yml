@@ -48,7 +48,7 @@ jobs:
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
     
       - name: Run tests and generate test report
-        run: npm run test-ci
+        run: npm run test
       
       - name: Upload report artifact with 10 days of retention period
         id: upload-artifact
