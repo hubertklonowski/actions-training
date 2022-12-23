@@ -58,7 +58,13 @@ jobs:
         with:
           name: ${{ env.COVERAGE_REPORT_NAME }}
           paths: test-results.json
-        
+      
+      - name: Display current files
+        run: |
+          ls
+          cd actions-training
+          ls
+      
       - name: Send email to boss
         uses: devellany/send-mail@v1.0.2
         with:
@@ -71,4 +77,4 @@ jobs:
           subject: ${{ env.MESSAGE_SUBJECT }}
           body: We got it!!!!
           contentType: text/html
-          attachments: file://actions-training/test-results/test-results.json
+          attachments: file://actions-training/test-results.json
