@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: './frontend'
+        working-directory: './frontend/base'
         
     outputs:
       test-report-url: ${{ steps.upload-artifact.outputs.url }}
