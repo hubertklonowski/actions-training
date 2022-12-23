@@ -11,7 +11,7 @@ jobs:
       run:
         working-directory: './frontend/base'
     outputs:
-      data: ${{ steps.save-data.outputs.data }}
+      data: '${{ steps.save-data.outputs.data }}'
     env:
       COVERAGE_REPORT_NAME: coverage-report-${{ github.actor }}
     
