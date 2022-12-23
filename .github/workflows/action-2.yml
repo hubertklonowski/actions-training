@@ -13,7 +13,7 @@ jobs:
     outputs:
       test-report-url: ${{ steps.upload-artifact.outputs.url }}
     env:
-      CURRENT_DATE: $(echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV)
+      CURRENT_DATE: $(echo "NOW=$(date +'%Y-%m-%dT%H_%M_%S')" >> $GITHUB_ENV)
       COVERAGE_REPORT_NAME: 'coverage-report-${{ env.CURRENT_DATE }}-${{ github.actor }}'
       BOSS_EMAIL: 'hubert.klonowski@predicagroup.com'
       MESSAGE_SUBJECT: 'Test report, ${{ env.CURRENT_DATE }} by ${{ github.actor }}'
