@@ -46,7 +46,7 @@ jobs:
           
       - name: Save report data to output
         id: save-data
-        run: echo "data=$(cat frontend\base\coverage\test-results.json | jq)" >> $GITHUB_OUTPUT
+        run: echo "data='$(cat frontend\base\coverage\test-results.json | jq)'" >> $GITHUB_OUTPUT
       
   send-report-email:
     runs-on: ubuntu-latest
