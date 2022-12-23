@@ -11,7 +11,7 @@ jobs:
       run:
         working-directory: './frontend/base'
     outputs:
-      test-report-url: ${{ steps.upload-artifact.outputs.url }}
+      data: ${{ steps.save-data.outputs.data }}
     env:
       COVERAGE_REPORT_NAME: coverage-report-${{ github.actor }}
     
@@ -43,6 +43,10 @@ jobs:
           name: ${{ env.COVERAGE_REPORT_NAME }}
           path: '**/test-results.json'
           retention-days: 10
+          
+      - name: Save report data to output
+        id: save-data
+        run: echo "data=$(cat frontend\base\coverage\test-results.json | jq)" >> $GITHUB_OUTPUT
       
   send-report-email:
     runs-on: ubuntu-latest
@@ -58,13 +62,7 @@ jobs:
         with:
           name: ${{ env.COVERAGE_REPORT_NAME }}
           paths: test-results.json
-      
-      - name: Display current files
-        run: |
-          ls
-          cd actions-training
-          ls
-      
+  
       - name: Send email to boss
         uses: devellany/send-mail@v1.0.2
         with:
@@ -75,6 +73,7 @@ jobs:
           from: ${{secrets.MAIL_ADDRESS}}
           to: ${{ env.BOSS_EMAIL }}
           subject: ${{ env.MESSAGE_SUBJECT }}
-          body: We got it!!!!
+          body: |
+            We got it!!!!
+            ${{ needs.generate-test-report.outputs.data }}
           contentType: text/html
-          attachments: file://actions-training/test-results.json
