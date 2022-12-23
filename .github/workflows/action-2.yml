@@ -13,9 +13,9 @@ jobs:
     outputs:
       test-report-url: ${{ steps.upload-artifact.outputs.url }}
     env:
-      COVERAGE_REPORT_NAME: 'coverage-report-${{ date +%F }}-${{ github.actor }}'
+      COVERAGE_REPORT_NAME: 'coverage-report-${{ github.actor }}'
       BOSS_EMAIL: 'hubert.klonowski@predicagroup.com'
-      MESSAGE_SUBJECT: 'Test report, ${{ date +%F }} by ${{ github.actor }}'
+      MESSAGE_SUBJECT: 'Test report by ${{ github.actor }}'
     
     steps:
       - name: Check out
