@@ -76,5 +76,5 @@ jobs:
           body: |
             We got it!!!!
             
-            Test coverage: 
-            ${{ toJson($(cat ${{ steps.download-artifact.outputs.path }}/test-results.json)) }}
+            Test coverage URL: 
+            ${{ steps.download-artifact.outputs.url }} }}
