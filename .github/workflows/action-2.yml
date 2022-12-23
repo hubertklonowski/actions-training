@@ -1,0 +1,68 @@
+name: Action 2
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths: 'frontend/**'
+    
+jobs:
+  generate-test-report:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './frontend'
+        
+    outputs:
+      test-report-url: ${{ steps.upload-artifact.outputs.url }}
+      
+    env:
+      COVERAGE_REPORT_NAME: 'coverage-report-${{ github.event.repository.updated_at }}-${{ github.actor }}'
+      BOSS_EMAIL: 'hubert.klonowski@predicagroup.com'
+      MESSAGE_SUBJECT: 'Test report, ${{ github.event.repository.updated_at }} by ${{ github.actor }}'
+    
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+    
+      - name: Setup Node.js
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: '12.x'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build application
+        run: npm run build
+
+      - name: Run linter
+        run: npm run lint
+    
+      - name: Run tests and generate test report
+        run: npm run test-ci
+      
+      - name: Upload report artifact with 10 days of retention period
+        id: upload-artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: ${{ env.COVERAGE_REPORT_NAME }}
+          path: '**/coverage/base/*'
+          retention-days: 10
+      
+  send-report-email:
+    runs-on: ubuntu-latest
+    needs: generate-test-report
+    steps:
+      - name: Download test report artifact
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: ${{ env.COVERAGE_REPORT_NAME }}
+          path: test-report/
+        
+      - name: Send email to boss
+        uses: cinotify/github-action@d99e3149178b27572a58ace227621c333884e
+        with:
+          to: ${{ env.BOSS_EMAIL }}
+          subject: ${{ env.MESSAGE_SUBJECT }}
+          body: |
+            We got it!!!!
+            Link to test coverage: ${{ needs.generate-test-report.outputs.test-report-url }}
