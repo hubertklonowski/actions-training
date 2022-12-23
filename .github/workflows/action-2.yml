@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.1
         with:
           name: ${{ env.COVERAGE_REPORT_NAME }}
-          path: '**/coverage/base/*'
+          path: '**/test-results.json'
           retention-days: 10
       
   send-report-email:
@@ -63,10 +63,10 @@ jobs:
     needs: generate-test-report
     steps:
       - name: Download test report artifact
+        id: download-artifact
         uses: actions/download-artifact@v3.0.1
         with:
           name: ${{ env.COVERAGE_REPORT_NAME }}
-          path: test-report/
         
       - name: Send email to boss
         uses: cinotify/github-action@d99e3149178b27572a58ace227621c333884e
@@ -75,4 +75,6 @@ jobs:
           subject: ${{ env.MESSAGE_SUBJECT }}
           body: |
             We got it!!!!
-            Link to test coverage: ${{ needs.generate-test-report.outputs.test-report-url }}
+            
+            Test coverage: 
+            ${{ toJson($(cat ${{ steps.download-artifact.outputs.path }}/test-results.json)) }}
