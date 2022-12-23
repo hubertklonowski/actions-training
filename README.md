@@ -10,7 +10,7 @@ The goodbye message that is meant to be displayed is stored in a file in the rep
 After a successful build, it sends an email with "We got it!!!!" to hubert.klonowski@predicagroup.com and uploads the artifact to GitHub Packages.
 Email attachments have links to the uploaded GitHub package and links to the report file.
 Report file artifacts should have 10 days of the retention period.
-All steps are dependent on each other (needs)!
+All jobs are dependent on each other (needs)!
 
 3. Action that downloads artifact from GitHub packages and deploys it to Azure. 
 Deployment is done as if no resources existed before, so we create each resource from scratch at the end we display the status message and we log out from Azure.
