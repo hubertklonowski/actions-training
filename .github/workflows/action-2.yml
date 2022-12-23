@@ -44,12 +44,9 @@ jobs:
           path: '**/test-results.json'
           retention-days: 10
           
-      - name: Show directory tree
-        run: tree
-          
       - name: Save report data to output
         id: save-data
-        run: echo "$(cat **\test-results.json | jq)" >> $GITHUB_OUTPUT
+        run: echo "$(find . -name 'test-results.json' | xargs cat | jq)" >> $GITHUB_OUTPUT
         
   send-report-email:
     runs-on: ubuntu-latest
