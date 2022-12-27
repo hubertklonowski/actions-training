@@ -1,0 +1,59 @@
+name: Action 5
+on:
+  pull_request:
+    types:
+      - closed
+jobs:
+  check-pr-status:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    # if
+    
+  get-issue-number:
+    runs-on: ubuntu-latest
+    needs: check-pr-status
+    outputs:
+      ISSUE_NUMBER: ${{ steps.issue-number.outputs.number }}
+    steps:
+      - name: Get issue number
+        id: issue-number
+        run: |
+          number=$(echo "${{ github.event.pull_request.title }}" | grep -Eo '[0-9]+')
+          echo "number=${{number}}" >> $GITHUB_OUTPUT
+
+  comment-on-issue:
+    runs-on: ubuntu-latest
+    needs: [check-pr-status, get-issue-number]
+    env:
+      PR_URL: ${{ github.server_url }}/${{ github.repository }}
+      ISSUE_NUMBER: needs.get-issue-number.outputs.ISSUE_NUMBER
+    steps:
+      - name: Comment on issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: ${{ env.ISSUE_NUMBER }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'The issue has been resolved by ${{ context.actor }} in this PR: ${{ env.PR_URL }}.'
+            })
+  
+  close-issue:
+    runs-on: ubuntu-latest
+    needs: [check-pr-status, get-issue-number, comment-on-issue]
+    env:
+      ISSUE_NUMBER: needs.get-issue-number.outputs.ISSUE_NUMBER
+    steps:
+      - name: Close the issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.update({
+              issue_number: ${{ env.ISSUE_NUMBER }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+              state_reason: 'resolved',
+              assignees: [${{ context.actor }}]
+            })
