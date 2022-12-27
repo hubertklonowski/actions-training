@@ -1,0 +1,29 @@
+name: Action 6
+on:
+  pull_request:
+    types:
+      - labeled
+jobs:
+  get-temperature:
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'weather'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      
+      - name: JS action
+        id: get-weather
+        uses: ./.github/workflows/js
+        with:
+          WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+      
+      - name: Display the weather
+        uses: actions/action-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.actor,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "Currently there is ${{ steps.get-weather.outputs.temperature }} degrees C in New York."
+            })
