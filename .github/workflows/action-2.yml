@@ -56,17 +56,5 @@ jobs:
           name: ${{ env.COVERAGE_REPORT_NAME }}
           paths: test-results.json
   
-      - name: Send email to boss
-        uses: devellany/send-mail@v1.0.2
-        with:
-          host: smtp.google.com
-          account: ${{secrets.MAIL_ADDRESS}}
-          password: ${{secrets.MAIL_PASSWORD}}
-          sender: Bulbo Inc Test Center
-          from: ${{secrets.MAIL_ADDRESS}}
-          to: ${{ env.BOSS_EMAIL }}
-          subject: ${{ env.MESSAGE_SUBJECT }}
-          body: |
-            "We got it!!!!
-            <artifact_url>"
-          contentType: text/html
+      - name: Mock email sent
+        run: echo "We got it!!!! <artifact_url>"
