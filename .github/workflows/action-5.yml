@@ -38,7 +38,7 @@ jobs:
               issue_number: ${{ env.ISSUE_NUMBER }},
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'The issue has been resolved by ${{ context.actor }} in this PR: ${{ env.PR_URL }}.'
+              body: 'The issue has been resolved by ${{ github.actor }} in this PR: ${{ env.PR_URL }}.'
             })
   
   close-issue:
@@ -57,5 +57,5 @@ jobs:
               repo: context.repo.repo,
               state: 'closed',
               state_reason: 'resolved',
-              assignees: [${{ context.actor }}]
+              assignees: [context.actor]
             })
