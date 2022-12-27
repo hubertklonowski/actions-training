@@ -20,15 +20,14 @@ jobs:
       - name: Get issue number
         id: issue-number
         run: |
-          number=$(echo "${{ github.event.pull_request.title }}" | grep -Eo '[0-9]+')
-          echo "number=$number" >> $GITHUB_OUTPUT
+          echo "number=$(echo "${{ github.event.pull_request.title }}" | grep -Eo '[0-9]+')" >> $GITHUB_OUTPUT
 
   comment-on-issue:
     runs-on: ubuntu-latest
     needs: [check-pr-status, get-issue-number]
     env:
-      PR_URL: ${{ github.server_url }}/${{ github.repository }}
-      ISSUE_NUMBER: needs.get-issue-number.outputs.ISSUE_NUMBER
+      PR_URL: ${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.number }}
+      ISSUE_NUMBER: ${{ needs.get-issue-number.outputs.ISSUE_NUMBER }}
     steps:
       - name: Comment on issue
         uses: actions/github-script@v6
@@ -45,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [check-pr-status, get-issue-number, comment-on-issue]
     env:
-      ISSUE_NUMBER: needs.get-issue-number.outputs.ISSUE_NUMBER
+      ISSUE_NUMBER: ${{ needs.get-issue-number.outputs.ISSUE_NUMBER }}
     steps:
       - name: Close the issue
         uses: actions/github-script@v6
