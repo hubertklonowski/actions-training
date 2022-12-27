@@ -1,0 +1,164 @@
+name: Action 4
+on:
+  workflow_dispatch:
+    inputs:
+      context-github:
+        description: 'Include github context'
+        required: false
+        type: boolean
+        
+      context-env:
+        description: 'Include env context'
+        required: false
+        type: boolean
+        
+      context-job:
+        description: 'Include job context'
+        required: false
+        type: boolean
+        
+      context-jobs:
+        description: 'Include jobs context'
+        required: false
+        type: boolean
+        
+      context-steps:
+        description: 'Include steps context'
+        required: false
+        type: boolean
+        
+      context-runner:
+        description: 'Include runner context'
+        required: false
+        type: boolean
+        
+      context-secrets:
+        description: 'Include secrets context'
+        required: false
+        type: boolean
+        
+      context-strategy:
+        description: 'Include strategy context'
+        required: false
+        type: boolean
+        
+      context-matrix:
+        description: 'Include matrix context'
+        required: false
+        type: boolean
+        
+      context-needs:
+        description: 'Include needs context'
+        required: false
+        type: boolean
+        
+      context-inputs:
+        description: 'Include inputs context'
+        required: false
+        type: boolean
+      
+  
+  repository_dispatch:
+    inputs:
+        context-github:
+          description: 'Include github context'
+          type: boolean
+          default: true
+
+        context-env:
+          description: 'Include env context'
+          type: boolean
+          default: true
+
+        context-job:
+          description: 'Include job context'
+          type: boolean
+          default: true
+
+        context-jobs:
+          description: 'Include jobs context'
+          type: boolean
+          default: true
+
+        context-steps:
+          description: 'Include steps context'
+          type: boolean
+          default: true
+
+        context-runner:
+          description: 'Include runner context'
+          type: boolean
+          default: true
+
+        context-secrets:
+          description: 'Include secrets context'
+          type: boolean
+          default: true
+
+        context-strategy:
+          description: 'Include strategy context'
+          type: boolean
+          default: true
+
+        context-matrix:
+          description: 'Include matrix context'
+          type: boolean
+          default: true
+
+        context-needs:
+          description: 'Include needs context'
+          type: boolean
+          default: true
+
+        context-inputs:
+          description: 'Include inputs context'
+          type: boolean
+          default: true
+
+jobs:
+  display-selected-contexts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: display-github-context
+        if: github.event.inputs.context-github == true
+        run: echo '${{ toJSON(github) }}'
+      
+      - name: display-env-context
+        if: github.event.inputs.context-env == true
+        run: echo '${{ toJSON(env) }}'
+      
+      - name: display-job-context
+        if: github.event.inputs.context-job == true
+        run: echo '${{ toJSON(job) }}'
+      
+      - name: display-jobs-context
+        if: github.event.inputs.context-jobs == true
+        run: echo '${{ toJSON(jobs) }}'
+      
+      - name: display-steps-context
+        if: github.event.inputs.context-steps == true
+        run: echo '${{ toJSON(steps) }}'
+      
+      - name: display-runner-context
+        if: github.event.inputs.context-runner == true
+        run: echo '${{ toJSON(runner) }}'
+      
+      - name: display-secrets-context
+        if: github.event.inputs.context-secrets == true
+        run: echo '${{ toJSON(secrets) }}'
+      
+      - name: display-strategy-context
+        if: github.event.inputs.context-strategy == true
+        run: echo '${{ toJSON(strategy) }}'
+      
+      - name: display-matrix-context
+        if: github.event.inputs.context-matrix == true
+        run: echo '${{ toJSON(matrix) }}'
+      
+      - name: display-needs-context
+        if: github.event.inputs.context-needs == true
+        run: echo '${{ toJSON(needs) }}'
+        
+      - name: display-inputs-context
+        if: github.event.inputs.context-inputs == true
+        run: echo '${{ toJSON(inputs) }}'
