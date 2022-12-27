@@ -47,11 +47,6 @@ on:
         required: false
         type: boolean
         
-      context-needs:
-        description: 'Include needs context'
-        required: false
-        type: boolean
-        
       context-inputs:
         description: 'Include inputs context'
         required: false
@@ -102,11 +97,6 @@ on:
 
         context-matrix:
           description: 'Include matrix context'
-          type: boolean
-          default: true
-
-        context-needs:
-          description: 'Include needs context'
           type: boolean
           default: true
 
