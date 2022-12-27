@@ -32,7 +32,7 @@ jobs:
         
       - name: Resolve dependencies
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
           popd
         
@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.1
         with:
           name: ${{ env.ARTIFACT_NAME }}
-          path: './deployment/output'
+          path: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
           if-no-files-found: error
 
   deploy:
