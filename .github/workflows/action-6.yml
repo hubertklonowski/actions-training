@@ -18,7 +18,7 @@ jobs:
           WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
       
       - name: Display the weather
-        uses: actions/action-script@v6
+        uses: actions/github-script@v6
         with:
           script: |
             github.rest.issues.createComment({
