@@ -1,0 +1,67 @@
+name: Build and deploy Azure function app
+on:
+  push:
+    branches: 
+      - main
+    paths:
+      - 'deployment/funcapp/**'
+  pull_request:
+    types: [opened, reopened, synchronized]
+    paths:
+      - 'deployment/funcapp/**'
+  workflow_dispatch:
+env:
+  DOTNET_VERSION: '7.0.x'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './deployment/funcapp'
+  ARTIFACT_NAME: 'function-app-${{github.run_number}}'
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2.6.0
+        
+      - name: Set up Dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+      - name: Resolve dependencies
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          dotnet build --configuration Release --output ./output
+          popd
+        
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: './deployment/funcapp/output'
+          if-no-files-found: error
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: './output'
+      
+      - name: Deploy artifacts to Azure
+        id: deploy-fa
+        uses: Azure/functions-action@v1
+        with:
+          app-name: 'ghdploy'
+          slot-name: 'production'
+          package: './output'
+          publish-profile: ${{ secrets.PUBLISH_PROFILE_FUNC_APP }}
+      
+      - name: Display deploy status message
+        run: echo "${{ steps.deploy-fa.conclusion }}"
+        
