@@ -1,4 +1,4 @@
-name: Build and deploy Azure function app
+name: Action 3
 on:
   push:
     branches: 
