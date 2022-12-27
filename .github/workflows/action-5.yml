@@ -21,7 +21,7 @@ jobs:
         id: issue-number
         run: |
           number=$(echo "${{ github.event.pull_request.title }}" | grep -Eo '[0-9]+')
-          echo "number=${{number}}" >> $GITHUB_OUTPUT
+          echo "number=$number" >> $GITHUB_OUTPUT
 
   comment-on-issue:
     runs-on: ubuntu-latest
