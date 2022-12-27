@@ -4,53 +4,48 @@ on:
     inputs:
       context-github:
         description: 'Include github context'
-        required: false
         type: boolean
+        default: true
         
       context-env:
         description: 'Include env context'
-        required: false
         type: boolean
+        default: true
         
       context-job:
         description: 'Include job context'
-        required: false
         type: boolean
-        
-      context-jobs:
-        description: 'Include jobs context'
-        required: false
-        type: boolean
+        default: true
         
       context-steps:
         description: 'Include steps context'
-        required: false
         type: boolean
+        default: true
         
       context-runner:
         description: 'Include runner context'
-        required: false
         type: boolean
+        default: true
         
       context-secrets:
         description: 'Include secrets context'
-        required: false
         type: boolean
+        default: true
         
       context-strategy:
         description: 'Include strategy context'
-        required: false
         type: boolean
+        default: true
         
       context-matrix:
         description: 'Include matrix context'
-        required: false
         type: boolean
+        default: true
         
       context-inputs:
         description: 'Include inputs context'
-        required: false
         type: boolean
+        default: true
       
   
   repository_dispatch:
@@ -67,11 +62,6 @@ on:
 
         context-job:
           description: 'Include job context'
-          type: boolean
-          default: true
-
-        context-jobs:
-          description: 'Include jobs context'
           type: boolean
           default: true
 
@@ -121,10 +111,6 @@ jobs:
         if: github.event.inputs.context-job == true
         run: echo '${{ toJSON(job) }}'
       
-      - name: display-jobs-context
-        if: github.event.inputs.context-jobs == true
-        run: echo '${{ toJSON(jobs) }}'
-      
       - name: display-steps-context
         if: github.event.inputs.context-steps == true
         run: echo '${{ toJSON(steps) }}'
@@ -145,10 +131,6 @@ jobs:
         if: github.event.inputs.context-matrix == true
         run: echo '${{ toJSON(matrix) }}'
       
-      - name: display-needs-context
-        if: github.event.inputs.context-needs == true
-        run: echo '${{ toJSON(needs) }}'
-        
       - name: display-inputs-context
         if: github.event.inputs.context-inputs == true
         run: echo '${{ toJSON(inputs) }}'
