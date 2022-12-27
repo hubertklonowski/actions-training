@@ -100,37 +100,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: display-github-context
-        if: github.event.inputs.context-github == true
+        if: github.event.inputs.context-github == true || inputs.context-github == true
         run: echo '${{ toJSON(github) }}'
       
       - name: display-env-context
-        if: github.event.inputs.context-env == true
+        if: github.event.inputs.context-env == true || inputs.context-env == true
         run: echo '${{ toJSON(env) }}'
       
       - name: display-job-context
-        if: github.event.inputs.context-job == true
+        if: github.event.inputs.context-job == true || inputs.context-job == true
         run: echo '${{ toJSON(job) }}'
       
       - name: display-steps-context
-        if: github.event.inputs.context-steps == true
+        if: github.event.inputs.context-steps == true || inputs.context-steps == true
         run: echo '${{ toJSON(steps) }}'
       
       - name: display-runner-context
-        if: github.event.inputs.context-runner == true
+        if: github.event.inputs.context-runner == true || inputs.context-runner == true
         run: echo '${{ toJSON(runner) }}'
       
       - name: display-secrets-context
-        if: github.event.inputs.context-secrets == true
+        if: github.event.inputs.context-secrets == true || inputs.context-secrets == true
         run: echo '${{ toJSON(secrets) }}'
       
       - name: display-strategy-context
-        if: github.event.inputs.context-strategy == true
+        if: github.event.inputs.context-strategy == true || inputs.context-strategy == true
         run: echo '${{ toJSON(strategy) }}'
       
       - name: display-matrix-context
-        if: github.event.inputs.context-matrix == true
+        if: github.event.inputs.context-matrix == true || inputs.context-matrix == true
         run: echo '${{ toJSON(matrix) }}'
       
       - name: display-inputs-context
-        if: github.event.inputs.context-inputs == true
+        if: github.event.inputs.context-inputs == true || inputs.context-inputs == true
         run: echo '${{ toJSON(inputs) }}'
