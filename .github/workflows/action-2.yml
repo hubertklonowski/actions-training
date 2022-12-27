@@ -67,6 +67,6 @@ jobs:
           to: ${{ env.BOSS_EMAIL }}
           subject: ${{ env.MESSAGE_SUBJECT }}
           body: |
-            We got it!!!!
-            <artifact_url>
+            "We got it!!!!
+            <artifact_url>"
           contentType: text/html
