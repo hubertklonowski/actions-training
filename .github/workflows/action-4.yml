@@ -46,54 +46,8 @@ on:
         description: 'Include inputs context'
         type: boolean
         default: true
-      
-  
+
   repository_dispatch:
-    inputs:
-        context-github:
-          description: 'Include github context'
-          type: boolean
-          default: true
-
-        context-env:
-          description: 'Include env context'
-          type: boolean
-          default: true
-
-        context-job:
-          description: 'Include job context'
-          type: boolean
-          default: true
-
-        context-steps:
-          description: 'Include steps context'
-          type: boolean
-          default: true
-
-        context-runner:
-          description: 'Include runner context'
-          type: boolean
-          default: true
-
-        context-secrets:
-          description: 'Include secrets context'
-          type: boolean
-          default: true
-
-        context-strategy:
-          description: 'Include strategy context'
-          type: boolean
-          default: true
-
-        context-matrix:
-          description: 'Include matrix context'
-          type: boolean
-          default: true
-
-        context-inputs:
-          description: 'Include inputs context'
-          type: boolean
-          default: true
 
 jobs:
   display-selected-contexts:
