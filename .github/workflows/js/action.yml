@@ -1,0 +1,12 @@
+name: 'JS Action - Action 6'
+description: 'Check the weather in New York if user added label weather to their PR.'
+inputs:
+  WEATHER_API_KEY:
+    required: true,
+    description: 'API key for OpenWeatherAPI'
+outputs:
+  temperature:
+    description: 'Temperature in New York (celcius)'
+runs:
+  using: 'node16'
+  main: './index.js'
