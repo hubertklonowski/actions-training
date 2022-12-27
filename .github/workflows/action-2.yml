@@ -10,6 +10,8 @@ jobs:
     defaults:
       run:
         working-directory: './frontend/base'
+    outputs:
+      data: ${{ steps.save-data.data }}
     env:
       COVERAGE_REPORT_NAME: coverage-report-${{ github.actor }}
     steps:
@@ -40,6 +42,10 @@ jobs:
           name: ${{ env.COVERAGE_REPORT_NAME }}
           path: '**/test-results.json'
           retention-days: 10
+      
+      - name: Save report data to output
+        id: save-data
+        run: echo "data=$(find . -name 'test-results.json' | xargs cat | jq)" >> $GITHUB_OUTPUT
         
   send-report-email:
     runs-on: ubuntu-latest
@@ -57,4 +63,6 @@ jobs:
           paths: test-results.json
   
       - name: Mock email sent
-        run: echo "We got it!!!! <artifact_url>"
+        run: |
+          echo "We got it!!!!\nTest report:
+          ${{ needs.generate-test-report.outputs.data }}"
