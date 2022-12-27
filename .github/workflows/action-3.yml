@@ -4,15 +4,15 @@ on:
     branches: 
       - main
     paths:
-      - 'deployment/funcapp/**'
+      - 'deployment/**'
   pull_request:
     types: [opened, reopened, synchronized]
     paths:
-      - 'deployment/funcapp/**'
+      - 'deployment/**'
   workflow_dispatch:
 env:
   DOTNET_VERSION: '7.0.x'
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './deployment/funcapp'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './deployment'
   ARTIFACT_NAME: 'function-app-${{github.run_number}}'
 defaults:
   run:
@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.1
         with:
           name: ${{ env.ARTIFACT_NAME }}
-          path: './deployment/funcapp/output'
+          path: './deployment/output'
           if-no-files-found: error
 
   deploy:
