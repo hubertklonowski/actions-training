@@ -1,0 +1,36 @@
+name: Function app deployer action
+on:
+  workflow_call:
+    inputs:
+      ARTIFACT_NAME:
+        required: true
+        type: string
+        default: 'function-app-${{github.run_number}}'
+      APP_NAME:
+        required: true
+        type: string
+      SLOT_NAME:
+        required: true
+        type: string
+    secrets:  
+      PUBLISH_PROFILE:
+        required: true
+
+jobs:
+  deploy-to-env:
+      runs-on: windows-latest
+      needs: build
+      steps:
+        - name: Download artifact
+          uses: actions/download-artifact@v3.0.1
+          with:
+            name: ${{ inputs.ARTIFACT_NAME }}
+            path: './output'
+        
+        - name: Deploy to dev
+          uses: Azure/functions-action@v1
+          with:
+            app-name: ${{ inputs.APP_NAME }}
+            slot-name: ${{ inputs.SLOT_NAME }}
+            package: './output'
+            publish-profile: ${{ secrets.PUBLISH_PROFILE }}

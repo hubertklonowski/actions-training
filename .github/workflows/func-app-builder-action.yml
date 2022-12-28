@@ -1,0 +1,41 @@
+name: Function app builder action
+on:
+  workflow_call:
+    inputs:
+      ARTIFACT_NAME:
+        required: true
+        type: string
+        default: 'function-app-${{github.run_number}}'
+      AZURE_FUNCTIONAPP_PACKAGE_PATH:
+        required: true
+        type: string
+        default: './deployment'
+defaults:
+  run:
+    shell: pwsh
+jobs:
+    build:
+      runs-on: windows-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2.6.0
+
+        - name: Set up Dotnet
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: |
+              7.0.x
+              6.0.x
+
+        - name: Resolve dependencies
+          run: |
+            pushd '${{ inputs.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+            dotnet build --configuration Release --output ./output
+            popd
+
+        - name: Upload artifacts
+          uses: actions/upload-artifact@v3.1.1
+          with:
+            name: ${{ inputs.ARTIFACT_NAME }}
+            path: '${{ inputs.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+            if-no-files-found: error

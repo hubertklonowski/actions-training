@@ -1,0 +1,39 @@
+name: Action 9
+on:
+  push:
+    paths:
+      - "./deployment/**"
+env:
+  ARTIFACT_NAME: 'my-artifact-${{ github.run_id }}'
+jobs:
+  build:
+    uses: './.github/workflows/func-app-builder-action.yml'
+    with:
+      ARTIFACT_NAME: '${{ env.ARTIFACT_NAME }}'
+      AZURE_FUNCTIONAPP_PACKAGE_PATH: './deployment'
+
+  deploy-dev:
+    uses: './.github/workflows/func-app-deployer-action.yml'
+    with:
+      ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
+      APP_NAME: 'ghdeploy-dev'
+      SLOT_NAME: 'dev'
+    secrets:
+      PUBLISH_PROFILE: ${{ secrets.PUBLISH_PROFILE_FUNC_APP_DEV }}
+
+  deploy-preprod:
+    uses: './.github/workflows/func-app-deployer-action.yml'
+    with:
+      ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
+      APP_NAME: 'ghdeploy-preprod'
+      SLOT_NAME: 'preprod'
+    secrets:
+      PUBLISH_PROFILE: ${{ secrets.PUBLISH_PROFILE_FUNC_APP_PREPROD }}
+
+  deploy-prod:
+    uses: './.github/workflows/func-app-deployer-action.yml'
+    with:
+      ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
+      APP_NAME: 'ghdeploy'
+    secrets:
+      PUBLISH_PROFILE: ${{ secrets.PUBLISH_PROFILE_FUNC_APP }}
