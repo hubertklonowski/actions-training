@@ -10,7 +10,7 @@ jobs:
 
       - name: Run composite action to say hello and goodbye
         id: greet-and-beat
-        uses: ./.github/workflows/composite
+        uses: './.github/workflows/composite/action.yml'
         with:
           who-to-greet: ${{ github.actor }}
 
