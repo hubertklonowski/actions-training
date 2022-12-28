@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
     inputs:
       issue_author:
-        required: true,
         description: Author of the issues,
-        default: ${{ github.actor }}
+        default: ${{ github.actor }},
+        required: true
 env:
   ARTIFACT_NAME: logs-${{ inputs.issue_author }}-${{ github.run_id }}
 jobs:
