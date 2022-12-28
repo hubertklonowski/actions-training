@@ -5,35 +5,38 @@ on:
       - "./deployment/**"
 env:
   ARTIFACT_NAME: 'my-artifact-${{ github.run_id }}'
+concurrency:
+  group: ${{ github.ref }}
+
 jobs:
   build:
     uses: './.github/workflows/func-app-builder-action.yml'
     with:
       ARTIFACT_NAME: '${{ env.ARTIFACT_NAME }}'
       AZURE_FUNCTIONAPP_PACKAGE_PATH: './deployment'
+  
+  matrix:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - publish_profile: PUBLISH_PROFILE_FUNC_APP_DEV
+            slot_name: 'dev'
+            app_name: 'ghdeploy_dev'
 
-  deploy-dev:
-    uses: './.github/workflows/func-app-deployer-action.yml'
-    with:
-      ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
-      APP_NAME: 'ghdeploy-dev'
-      SLOT_NAME: 'dev'
-    secrets:
-      PUBLISH_PROFILE: ${{ secrets.PUBLISH_PROFILE_FUNC_APP_DEV }}
+          - publish_profile: PUBLISH_PROFILE_FUNC_APP_PREPROD
+            slot_name: 'preprod'
+            app_name: 'ghdeploy_preprod'
 
-  deploy-preprod:
-    uses: './.github/workflows/func-app-deployer-action.yml'
-    with:
-      ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
-      APP_NAME: 'ghdeploy-preprod'
-      SLOT_NAME: 'preprod'
-    secrets:
-      PUBLISH_PROFILE: ${{ secrets.PUBLISH_PROFILE_FUNC_APP_PREPROD }}
-
-  deploy-prod:
-    uses: './.github/workflows/func-app-deployer-action.yml'
-    with:
-      ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
-      APP_NAME: 'ghdeploy'
-    secrets:
-      PUBLISH_PROFILE: ${{ secrets.PUBLISH_PROFILE_FUNC_APP }}
+          - publish_profile: PUBLISH_PROFILE_FUNC_APP
+            slot_name: ''
+            app_name: 'ghdeploy'
+      max-parallel: 3
+    steps:
+      - name: Deploy
+        uses: './.github/workflows/func-app-deployer-action.yml'
+        with:
+          ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
+          APP_NAME: ${{ matrix.app_name }}
+          SLOT_NAME: ${{ matrix.slot_name }}
+          PUBLISH_PROFILE: ${{ secrets.${{ matrix.publish_profile }} }}
