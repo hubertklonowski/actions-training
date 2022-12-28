@@ -67,6 +67,12 @@ jobs:
       outputs:
         IS_CONFIRMED: ${{ steps.get-confirmation.IS_CONFIRMED }}
       steps:
+        - name: Download artifact
+          uses: actions/download-artifact@v3.0.1
+          with:
+            name: ${{ env.ARTIFACT_NAME }}
+            path: './output'
+            
         - name: Check comments for confirmation
           id: get-confirmation
           run: |
@@ -78,6 +84,12 @@ jobs:
       needs: check-for-confirmation
       if: needs.check-for-confirmation.outputs.IS_CONFIRMED == 'LGTM'
       steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: './output'
+      
       - name: Deploy to preprod
         uses: Azure/functions-action@v1
         with:
@@ -91,6 +103,12 @@ jobs:
       needs: [check-for-confirmation, deploy-to-preprod]
       if: needs.check-for-confirmation.outputs.IS_CONFIRMED == 'LGTM'
       steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: './output'
+          
       - name: Deploy to prod
         uses: Azure/functions-action@v1
         with:
