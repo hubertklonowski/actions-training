@@ -3,8 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       issue_author:
-        description: Author of the issues,
-        default: ${{ github.actor }},
+        description: Author of the issues
+        default: "${{ github.actor }}"
         required: true
 env:
   ARTIFACT_NAME: logs-${{ inputs.issue_author }}-${{ github.run_id }}
