@@ -2,7 +2,7 @@ name: PostgreSQL service example
 on: push
 defaults:
   run:
-    working-directory: './.github/workflows'
+    working-directory: './.github/workflows/container-service'
 jobs:
   container-job:
     runs-on: ubuntu-latest
