@@ -21,4 +21,4 @@ jobs:
           repo_name: actions-training
       
       - name: Display logs
-        run: echo "${{ steps.logs.output.issues }}"
+        run: echo "${{ steps.logs.output.logs }}"
