@@ -32,15 +32,11 @@ It logs the content, author, and time of logging for user passed as input (workf
 It uses the matrix to define the environment and custom action for deployment that is used for each matrix element.
 The action runs only on the self-hosted runner.
 
-10. Action for setting up application environment. 
-It deploys all JSON resources that are inside the templates folder to Azure.
-It creates a new resource group that contains the name of the new environment rg-{ENV}, which is taken as input (required) to running the workflow.
-Workflow can be run manually from the Actions page only.
+10. Composite action that uses few different shells to greet and say goodbye to the user served as input.
 
 
 // ideas
 new release => new package
-Composite run steps action with powershell and bash that is reused in different flow
 Action that uses outputs from other action
 Action that has costumized branding
 Setting custom error code for javascript action

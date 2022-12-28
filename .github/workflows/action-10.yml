@@ -1,0 +1,15 @@
+name: Action 10
+on:
+  workflow_dispatch:
+jobs:
+  hi-and-bye:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run composite action to say hello and goodbye
+        id: greet-and-beat
+        uses: ./.github/workflows/composite
+        with:
+          who-to-greet: ${{ github.actor }}
+          
+      - name: Display lucky number
+        run: echo "Lucky number is ${{ steps.greet-and-beat.outputs.random-number }}" 
