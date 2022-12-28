@@ -22,8 +22,11 @@ runs:
       run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
 
     - name: Say goodbye in python
-      shell: python
-      run: python3 -c "import os;print('Goodbye, the lucky number for today is {0}'.format(os.environ['random-number']))"
       env:
         random-number: ${{ steps.number-generator.outputs.random-number }}
-      
+      uses: actions/action-script@v6
+      with:
+        script: |
+          import os
+          print('Goodbye, the lucky number for today is {0}'.format(os.environ['random-number']))
+        entrypoint: python
