@@ -17,6 +17,7 @@ jobs:
   
   matrix:
     runs-on: windows-latest
+    needs: build
     strategy:
       matrix:
         include:
