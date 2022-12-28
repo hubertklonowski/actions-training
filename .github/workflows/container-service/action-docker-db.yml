@@ -1,0 +1,38 @@
+name: PostgreSQL service example
+on: push
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    # if we didn't include container part, we would be running services on our runner machine
+    # services would stay the same in that case, but we'll need to map the ports then
+    container: node:10.18-jessie
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        # ports:
+          # - 5432:5432
+    
+    # everything will execute inside container with node installed
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set working directory
+        run: cd actions-training\.github\workflows\container-service
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run script for table creation and data retrieval
+        run: node client.js
+        env:
+          # in case of running it directly on the runner, we'll have hostname as localhost
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
