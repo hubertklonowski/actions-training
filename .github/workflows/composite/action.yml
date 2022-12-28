@@ -23,5 +23,5 @@ runs:
 
     - name: Say goodbye in python
       shell: python
-      run: python3 -c "print('Goodbye, the lucky number for today is ${{ random-number }}')"
+      run: python3 -c "print('Goodbye, the lucky number for today is ${{ job.outputs.random-number }}')"
       
