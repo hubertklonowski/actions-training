@@ -24,8 +24,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
+      - name: where am i
+        run: tree
+
       - name: Set working directory
-        run: cd actions-training\.github\workflows\container-service
+        run: cd actions-training/.github/workflows/container-service
 
       - name: Install dependencies
         run: npm ci
