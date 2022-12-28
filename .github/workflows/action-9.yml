@@ -12,7 +12,7 @@ jobs:
   build:
     uses: './.github/workflows/func-app-builder-action.yml'
     with:
-      ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
+      ARTIFACT_NAME: 'my-artifact-${{ github.run_id }}'
       AZURE_FUNCTIONAPP_PACKAGE_PATH: './deployment'
   
   matrix:
@@ -36,7 +36,7 @@ jobs:
       - name: Deploy
         uses: './.github/workflows/func-app-deployer-action.yml'
         with:
-          ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
+          ARTIFACT_NAME: 'my-artifact-${{ github.run_id }}'
           APP_NAME: ${{ matrix.app_name }}
           SLOT_NAME: ${{ matrix.slot_name }}
           PUBLISH_PROFILE: ${{ secrets.${{ matrix.publish_profile }} }}
