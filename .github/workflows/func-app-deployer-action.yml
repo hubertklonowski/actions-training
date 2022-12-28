@@ -18,7 +18,7 @@ on:
 
 jobs:
   deploy-to-env:
-      runs-on: windows-latest
+      runs-on: [self-hosted, fast]
       needs: build
       steps:
         - name: Download artifact

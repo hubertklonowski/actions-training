@@ -15,7 +15,7 @@ defaults:
     shell: pwsh
 jobs:
     build:
-      runs-on: windows-latest
+      runs-on: [self-hosted, fast]
       steps:
         - name: Checkout repository
           uses: actions/checkout@v2.6.0
