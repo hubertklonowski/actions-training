@@ -55,7 +55,7 @@ jobs:
         - name: Deploy to dev
           uses: Azure/functions-action@v1
           with:
-            app-name: 'ghdeploy'
+            app-name: 'ghdeploy-dev'
             slot-name: 'dev'
             package: './output'
             publish-profile: ${{ secrets.PUBLISH_PROFILE_FUNC_APP_DEV }}
@@ -93,7 +93,7 @@ jobs:
       - name: Deploy to preprod
         uses: Azure/functions-action@v1
         with:
-          app-name: 'ghdeploy'
+          app-name: 'ghdeploy-preprod'
           slot-name: 'preprod'
           package: './output'
           publish-profile: ${{ secrets.PUBLISH_PROFILE_FUNC_APP_PREPROD }}
