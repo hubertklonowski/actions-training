@@ -3,6 +3,10 @@ description: Container action that logs issues created to file in the repository
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ inputs.issue_author }}
+    - ${{ inputs.repo_git }}
+    - ${{ inputs.repo_name }}
 inputs:
   issue_author:
     required: true
