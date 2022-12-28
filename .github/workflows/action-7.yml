@@ -1,0 +1,98 @@
+name: Action 7
+on:
+  pull_request:
+    types:
+      - closed
+    paths:
+      - 'deployment/**'
+defaults:
+  run:
+    shell: pwsh
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './deployment'
+  ARTIFACT_NAME: 'function-app-xxx-${{github.run_number}}'
+  PR_NUMBER: ${{ github.event.number }}
+  REPOSITORY_INFO: ${{ github.repository }}
+  
+jobs:
+    build:
+      runs-on: windows-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2.6.0
+
+        - name: Set up Dotnet
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: |
+              7.0.x
+              6.0.x
+
+        - name: Resolve dependencies
+          run: |
+            pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+            dotnet build --configuration Release --output ./output
+            popd
+
+        - name: Upload artifacts
+          uses: actions/upload-artifact@v3.1.1
+          with:
+            name: ${{ env.ARTIFACT_NAME }}
+            path: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+            if-no-files-found: error
+    
+    deploy-to-dev:
+      runs-on: windows-latest
+      if: github.event.pull_request.merged
+      steps:
+        - name: Download artifact
+          uses: actions/download-artifact@v3.0.1
+          with:
+            name: ${{ env.ARTIFACT_NAME }}
+            path: './output'
+        
+        - name: Deploy to dev
+          uses: Azure/functions-action@v1
+          with:
+            app-name: 'ghdeploy'
+            slot-name: 'dev'
+            package: './output'
+            publish-profile: ${{ secrets.PUBLISH_PROFILE_FUNC_APP_DEV }}
+
+    check-for-confirmation:
+      runs-on: windows-latest
+      needs: deploy-to-dev
+      if: github.event.pull_request
+      outputs:
+        IS_CONFIRMED: ${{ steps.get-confirmation.IS_CONFIRMED }}
+      steps:
+        - name: Check comments for confirmation
+          id: get-confirmation
+          run: |
+            status=$(gh api -H "Accept: application/vnd.github+json" /repos/${{ env.REPOSITORY_INFO }}/issues/${{ env.PR_NUMBER }}/comments | grep "LGTM" -o)
+            echo "IS_CONFIRMED=$status" >> $GITHUB_OUTPUT
+
+    deploy-to-preprod:
+      runs-on: windows-latest
+      needs: check-for-confirmation
+      if: IS_CONFIRMED == 'LGTM'
+      steps:
+      - name: Deploy to preprod
+        uses: Azure/functions-action@v1
+        with:
+          app-name: 'ghdeploy'
+          slot-name: 'preprod'
+          package: './output'
+          publish-profile: ${{ secrets.PUBLISH_PROFILE_FUNC_APP_PREPROD }}
+
+    deploy-to-prod:
+      runs-on: windows-latest
+      needs: [check-for-confirmation, deploy-to-preprod]
+      if: IS_CONFIRMED == 'LGTM'
+      steps:
+      - name: Deploy to prod
+        uses: Azure/functions-action@v1
+        with:
+          app-name: 'ghdeploy'
+          package: './output'
+          publish-profile: ${{ secrets.PUBLISH_PROFILE_FUNC_APP }}
