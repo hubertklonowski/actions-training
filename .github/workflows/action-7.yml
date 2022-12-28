@@ -75,7 +75,7 @@ jobs:
     deploy-to-preprod:
       runs-on: windows-latest
       needs: check-for-confirmation
-      if: IS_CONFIRMED == 'LGTM'
+      if: needs.check-for-confirmation.outputs.IS_CONFIRMED == 'LGTM'
       steps:
       - name: Deploy to preprod
         uses: Azure/functions-action@v1
@@ -88,7 +88,7 @@ jobs:
     deploy-to-prod:
       runs-on: windows-latest
       needs: [check-for-confirmation, deploy-to-preprod]
-      if: IS_CONFIRMED == 'LGTM'
+      if: needs.check-for-confirmation.outputs.IS_CONFIRMED == 'LGTM'
       steps:
       - name: Deploy to prod
         uses: Azure/functions-action@v1
