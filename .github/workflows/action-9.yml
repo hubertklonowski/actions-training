@@ -12,7 +12,7 @@ jobs:
   build:
     uses: './.github/workflows/func-app-builder-action.yml'
     with:
-      ARTIFACT_NAME: '${{ env.ARTIFACT_NAME }}'
+      ARTIFACT_NAME: ${{ env.ARTIFACT_NAME }}
       AZURE_FUNCTIONAPP_PACKAGE_PATH: './deployment'
   
   matrix:
