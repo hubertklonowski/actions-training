@@ -1,0 +1,27 @@
+name: 'Action 8'
+on:
+  workflow_dispatch:
+    inputs:
+      issue_author:
+        required: true,
+        description: Author of the issues,
+        default: ${{ github.actor }}
+env:
+  ARTIFACT_NAME: logs-${{ inputs.issue_author }}-${{ github.run_id }}
+jobs:
+  get-logs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        run: actions/checkout@v3
+      
+      - name: Get logs
+        id: logs
+        uses: './.github/workflows/docker'
+        with:
+          issue_author: ${{ inputs.issue_author }},
+          repo_git: ${{ github.repositoryUrl }},
+          repo_name: actions-training
+      
+      - name: Display logs
+        run: echo "${{ steps.logs.output.issues }}"
