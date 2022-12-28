@@ -36,9 +36,6 @@ The action runs only on the self-hosted runner.
 
 
 // ideas
-new release => new package
-Action that uses outputs from other action
-Action that has costumized branding
+Action that has customized branding
 Setting custom error code for javascript action
 Setting custom error code for docker container
-motivating developer after failed deployment
