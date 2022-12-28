@@ -2,7 +2,7 @@ name: Action 9
 on:
   push:
     paths:
-      - "./deployment/**"
+      - 'deployment/**'
 env:
   ARTIFACT_NAME: 'my-artifact-${{ github.run_id }}'
 concurrency:
