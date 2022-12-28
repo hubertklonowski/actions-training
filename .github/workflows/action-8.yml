@@ -21,4 +21,7 @@ jobs:
           repo_name: actions-training
       
       - name: Display logs
+        run: echo "${{ toJSON(steps.logs) }}"
+      
+      - name: Display logs
         run: echo "${{ steps.logs.outputs.logs }}"
