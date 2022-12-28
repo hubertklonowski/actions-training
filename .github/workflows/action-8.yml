@@ -5,14 +5,12 @@ on:
       issue_author:
         description: Author of the issues
         required: true
-env:
-  ARTIFACT_NAME: logs-${{ inputs.issue_author }}-${{ github.run_id }}
 jobs:
   get-logs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        run: actions/checkout@v3
+        uses: actions/checkout@v3
       
       - name: Get logs
         id: logs
