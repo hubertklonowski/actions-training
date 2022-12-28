@@ -23,7 +23,7 @@ runs:
 
     - name: Say goodbye in python
       shell: python
-      run: python3 -c "import os print(f'Goodbye, the lucky number for today is {os.environ['random-number']}')"
+      run: python3 -c "import os;print('Goodbye, the lucky number for today is {0}', os.environ['random-number'])"
       env:
         random-number: ${{ steps.number-generator.outputs.random-number }}
       
