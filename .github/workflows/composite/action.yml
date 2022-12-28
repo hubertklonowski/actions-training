@@ -23,4 +23,4 @@ runs:
 
     - name: Say goodbye in python
       shell: python
-      run: python3 -c "import os;print('Goodbye')"
+      run: python3 -c "print('Goodbye')"
