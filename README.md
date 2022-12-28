@@ -25,8 +25,8 @@ Before closing the issue it comments on it that the issue has been solved and it
 
 7. Action that controls deployment to Azure. dev will deploy to the development environment upon closing the PR, pre-prod will deploy to pre-prod and prod will deploy to prod upon manual confirmation (in form of a comment on PR - "LGTM" by the author)
 
-8. Container action that logs issues created to file in the repository called issues.txt.
-It logs the content, author, and time of logging.
+8. Container action that logs issues created by user to file called issues.txt and uploads this artifact.
+It logs the content, author, and time of logging for user passed as input (workflow caller, workflow_dispatch)
 
 9. Action deploys code to dev and pre-prod environments on Azure in parallel.
 It uses the matrix to define the environment and custom action for deployment that is used for each matrix element.

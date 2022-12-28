@@ -1,0 +1,18 @@
+name: docker-logger
+description: Container action that logs issues created to file in the repository called issues.txt. It logs the content, author, and time of logging.
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+inputs:
+  issue_author:
+    required: true
+    description: Author of the issues that we will be fetching
+  repo_git:
+    required: true
+    description: URL of repository in which we will be searching the issues in
+  repo_name:
+    required: true
+    description: Name of the repository that we will be downloading
+outputs:
+  logs:
+    description: Output file name
