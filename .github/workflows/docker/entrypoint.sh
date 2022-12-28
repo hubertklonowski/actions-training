@@ -1,5 +1,5 @@
 #!/bin/bash
-git clone -q $INPUT_REPO_GIT && cd $INPUT_REPO_NAME
-issues=$(gh issue list -A $INPUT_ISSUE_AUTHOR)
-echo $issues
+git clone -q $2 && cd $3
+issues=$(gh issue list -A $1)
+echo "issues=$issues" >> $GITHUB_OUTPUT
 exit 0
