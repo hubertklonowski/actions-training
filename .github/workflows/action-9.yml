@@ -39,4 +39,4 @@ jobs:
           ARTIFACT_NAME: 'my-artifact-${{ github.run_id }}'
           APP_NAME: ${{ matrix.app_name }}
           SLOT_NAME: ${{ matrix.slot_name }}
-          PUBLISH_PROFILE: ${{ secrets.${{ matrix.publish_profile }} }}
+          PUBLISH_PROFILE: ${{ matrix.publish_profile }}
