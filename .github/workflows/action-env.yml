@@ -7,11 +7,11 @@ jobs:
     environment: dev
     steps:
       - name: Display dev data
-        run: echo "${{ secrets.SECRET_DEV }}"
+        run: echo ${{ secrets.DEV_SECRET }}
   preprod-data:
     runs-on: ubuntu-latest
     environment: preprod
     steps:
       - name: Display preprod data
-        run: echo "${{ secrets.SECRET_PREPROD }}"
+        run: echo ${{ secrets.PREPROD_SECRET }}
         
