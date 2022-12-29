@@ -1,0 +1,17 @@
+name: Check environment
+on:
+  workflow_dispatch:
+jobs:
+  dev-data:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Display dev data
+        run: echo "${{ secrets.SECRET_DEV }}"
+  preprod-data:
+    runs-on: ubuntu-latest
+    environment: preprod
+    steps:
+      - name: Display preprod data
+        run: echo "${{ secrets.SECRET_PREPROD }}"
+        
