@@ -10,7 +10,7 @@ jobs:
     
       - name: Get cheese
         id: cheese
-        uses: './.github/workflows/cheeser.yml@main'
+        uses: './.github/workflows/cheeser.yml'
       
       - name: Display output cheese
         run: echo "${{ steps.cheese.OUTPUT }}"
