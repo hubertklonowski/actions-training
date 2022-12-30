@@ -13,9 +13,11 @@ jobs:
           cd .github
           tree
     
-      - name: Get cheese
+      - uses: './.github/workflows/cheeser.yml'
         id: cheese
-        uses: './.github/workflows/cheeser'
+        with:
+          name: John
+          API_KEY: 'key'
       
       - name: Display output cheese
         run: echo "${{ steps.cheese.OUTPUT }}"
