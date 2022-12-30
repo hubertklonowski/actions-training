@@ -1,0 +1,26 @@
+name: Reusable workflow 1
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+    
+    outputs:
+      OUTPUT:
+        value: ${{ jobs.job-1.generate.OUTPUT }}
+  
+    secrets:
+      API_KEY:
+        required: true
+
+jobs:
+  job-1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Greet person
+        run: echo "Hello, ${{ inputs.name }}"
+        
+      - name: Generate output
+        id: generate
+        run: echo "OUTPUT=cheese" >> $GITHUB_OUTPUT
