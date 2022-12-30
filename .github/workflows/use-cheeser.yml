@@ -13,7 +13,7 @@ jobs:
           cd .github
           tree
     
-      - uses: './.github/actions/cheeser-action.yml'
+      - uses: './.github/actions/cheeser/cheeser-action.yml'
         name: cheeser
         id: cheeser
         with:
