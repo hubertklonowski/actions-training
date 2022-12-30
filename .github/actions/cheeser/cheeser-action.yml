@@ -18,6 +18,9 @@ jobs:
   job-1:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2.6.0
+        
       - name: Greet person
         run: echo "Hello, ${{ inputs.name }}"
         
