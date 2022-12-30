@@ -1,0 +1,13 @@
+name: Cheeser user
+on:
+  workflow_dispatch:
+jobs:
+  job-1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get cheese
+        id: cheese
+        uses: ./.github/workflows/cheeser.yml
+      
+      - name: Display output cheese
+        run: echo "${{ steps.cheese.OUTPUT }}"
