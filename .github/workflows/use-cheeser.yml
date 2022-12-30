@@ -13,7 +13,7 @@ jobs:
           cd .github
           tree
     
-      - uses: './.github/actions/cheeser'
+      - uses: ./.github/actions/cheeser
         id: cheese
         with:
           name: John
