@@ -5,12 +5,14 @@ jobs:
   job-1:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/cheeser/cheeser-action.yml
-        name: cheeser
+      - name: Checkout repository
+        uses: actions/checkout@v2.6.0
+
+      - uses: './.github/workflows/cheeser-action.yml'
         id: cheeser
         with:
           name: John
           API_KEY: key
-      
+
       - name: Display output cheese
         run: echo "${{ steps.cheeser.OUTPUT }}"
