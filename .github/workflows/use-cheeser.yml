@@ -14,7 +14,8 @@ jobs:
           tree
     
       - uses: ./.github/actions/cheeser
-        id: cheese
+        name: cheeser
+        id: cheeser
         with:
           name: John
           API_KEY: 'key'
