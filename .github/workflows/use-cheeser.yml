@@ -5,20 +5,12 @@ jobs:
   job-1:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-    
-      - name: tree
-        run: |
-          cd .github
-          tree
-    
-      - uses: './.github/actions/cheeser/cheeser-action.yml'
+      - uses: ./.github/actions/cheeser/cheeser-action.yml
         name: cheeser
         id: cheeser
         with:
           name: John
-          API_KEY: 'key'
+          API_KEY: key
       
       - name: Display output cheese
-        run: echo "${{ steps.cheese.OUTPUT }}"
+        run: echo "${{ steps.cheeser.OUTPUT }}"
