@@ -5,6 +5,9 @@ jobs:
   job-1:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+    
       - name: Get cheese
         id: cheese
         uses: ./.github/workflows/cheeser.yml
