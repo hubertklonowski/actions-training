@@ -1,9 +1,0 @@
-on:
-  workflow_dispatch:
-run-name: run-${{ github.run_id }}-${{ github.actor }}
-jobs:
-  job-1:
-    runs-on: ubuntu-latest
-    steps:
-      - name: step 1
-        run: echo step 1
