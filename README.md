@@ -1,4 +1,5 @@
 # actions-training
+![Action 6](https://github.com/hubertklonowski/actions-training/actions/workflows/action-6.yml/badge.svg)
 
 GENERAL REQUIREMENTS:
 - secrets are stored in GitHub Action Secrets for the repository
@@ -33,9 +34,3 @@ It uses the matrix to define the environment and custom action for deployment th
 The action runs only on the self-hosted runner.
 
 10. Composite action that uses few different shells to greet and say goodbye to the user served as input.
-
-
-// ideas
-Action that has customized branding
-Setting custom error code for javascript action
-Setting custom error code for docker container
